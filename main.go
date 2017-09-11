@@ -25,7 +25,7 @@ func Intersection(duration time.Duration, colorDurations []time.Duration) chan s
 			elapsed := t.Sub(start)
 			minutes := int(elapsed.Minutes()) % 60
 			seconds := int(elapsed.Seconds()) % 60
-			status <- fmt.Sprintf("NS: %s, EW: %s - %02d:%02d",
+			status <- fmt.Sprintf("(N, S): %s, (E, W): %s - %02d:%02d",
 				NSLights.color,
 				EWLights.color,
 				minutes,

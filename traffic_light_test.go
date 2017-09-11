@@ -6,9 +6,9 @@ import (
 )
 
 var testLightColorDurations = []time.Duration{
-	(200 * time.Millisecond), // Green
-	100 * time.Millisecond,   // Yellow
-	300 * time.Millisecond,   // Red
+	200 * time.Millisecond, // Green
+	100 * time.Millisecond, // Yellow
+	300 * time.Millisecond, // Red
 }
 
 var tl *TrafficLight = NewTrafficLight(Green, testLightColorDurations)
