@@ -1,6 +1,7 @@
 package main
 
 import (
+	// "fmt"
 	"time"
 )
 
@@ -18,28 +19,21 @@ func (c Color) String() string {
 	return colors[c]
 }
 
-var colorDurations = []time.Duration{
-	(4 * time.Minute) + (30 * time.Second),
-	30 * time.Second,
-	5 * time.Minute,
-}
-
 type TrafficLight struct {
-	color Color
-	timer *time.Timer
+	color          Color
+	colorDurations []time.Duration
+	timer          *time.Timer
 }
 
-func NewTrafficLight(color Color) *TrafficLight {
-	timer := time.NewTimer(colorDurations[color])
-	light := &TrafficLight{color, timer}
-	go func() {
-		<-timer.C
-		light.switchColor()
-	}()
+func NewTrafficLight(color Color, colorDurations []time.Duration) *TrafficLight {
+	light := &TrafficLight{color, colorDurations, nil}
+	light.timer = time.AfterFunc(colorDurations[light.color], light.switchColor)
 	return light
 }
 
 func (tl *TrafficLight) switchColor() {
+	// fmt.Printf("My color before: %s\n", tl.color)
 	tl.color = (tl.color + 1) % 3 // as we have 3 possible colors
-	tl.timer = time.AfterFunc(colorDurations[tl.color], tl.switchColor)
+	// fmt.Printf("My color after: %s\n", tl.color)
+	tl.timer = time.AfterFunc(tl.colorDurations[tl.color], tl.switchColor)
 }
