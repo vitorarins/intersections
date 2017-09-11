@@ -1,7 +1,6 @@
 package main
 
 import (
-	// "fmt"
 	"time"
 )
 
@@ -32,8 +31,6 @@ func NewTrafficLight(color Color, colorDurations []time.Duration) *TrafficLight 
 }
 
 func (tl *TrafficLight) switchColor() {
-	// fmt.Printf("My color before: %s\n", tl.color)
 	tl.color = (tl.color + 1) % 3 // as we have 3 possible colors
-	// fmt.Printf("My color after: %s\n", tl.color)
 	tl.timer = time.AfterFunc(tl.colorDurations[tl.color], tl.switchColor)
 }

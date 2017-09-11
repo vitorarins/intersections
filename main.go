@@ -25,15 +25,15 @@ func Intersection(duration time.Duration, colorDurations []time.Duration) chan s
 			elapsed := t.Sub(start)
 			minutes := int(elapsed.Minutes()) % 60
 			seconds := int(elapsed.Seconds()) % 60
-			if elapsed >= duration {
-				close(status)
-				break
-			}
 			status <- fmt.Sprintf("NS: %s, EW: %s - %02d:%02d",
 				NSLights.color,
 				EWLights.color,
 				minutes,
 				seconds)
+			if elapsed >= duration {
+				close(status)
+				break
+			}
 		}
 	}()
 	return status

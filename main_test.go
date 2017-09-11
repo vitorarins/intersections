@@ -42,7 +42,7 @@ func TestSwitch(t *testing.T) {
 }
 
 func TestAfterDuration(t *testing.T) {
-	expectedLastStatus := "NS: Yellow, EW: Green - 00:04"
+	expectedLastStatus := "NS: Red, EW: Green - 00:05"
 	var actualLastStatus string
 	for actualLastStatus = range status {
 	}
