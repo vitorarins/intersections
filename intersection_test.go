@@ -21,7 +21,7 @@ var testColorDurations = map[string]time.Duration{
 	"switch": 500 * time.Millisecond,
 }
 
-var intersection *Intersection = NewIntersection(testMaxDuration, testColorDurations)
+var intersection = NewIntersection(testMaxDuration, testColorDurations)
 
 func TestInitialization(t *testing.T) {
 	expected := "(N, S): Green, (E, W): Red - 00:00.00"
