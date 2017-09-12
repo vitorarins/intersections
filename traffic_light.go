@@ -1,9 +1,5 @@
 package main
 
-import (
-	"time"
-)
-
 type Color int
 
 const (
@@ -19,18 +15,14 @@ func (c Color) String() string {
 }
 
 type TrafficLight struct {
-	color          Color
-	colorDurations []time.Duration
-	timer          *time.Timer
+	color Color
 }
 
-func NewTrafficLight(color Color, colorDurations []time.Duration) *TrafficLight {
-	light := &TrafficLight{color, colorDurations, nil}
-	light.timer = time.AfterFunc(colorDurations[light.color], light.switchColor)
-	return light
+func NewTrafficLight(color Color) *TrafficLight {
+	tl := &TrafficLight{color}
+	return tl
 }
 
 func (tl *TrafficLight) switchColor() {
 	tl.color = (tl.color + 1) % 3 // as we have 3 possible colors
-	tl.timer = time.AfterFunc(tl.colorDurations[tl.color], tl.switchColor)
 }
