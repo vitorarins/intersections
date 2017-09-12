@@ -5,6 +5,8 @@ import (
 	"time"
 )
 
+// Intersection is a representation of a virtual road intersection.
+// With traffic lights for North, South (NS), East and West (EW)
 type Intersection struct {
 	nsLights       *TrafficLight
 	ewLights       *TrafficLight
@@ -18,6 +20,8 @@ type Intersection struct {
 	timer          *time.Timer
 }
 
+// NewIntersection allocates a new Intersection that will show it's outputStatus during maxDuration.
+// And change colors on the traffic lights based on colorDurations.
 func NewIntersection(maxDuration time.Duration, colorDurations map[string]time.Duration) *Intersection {
 	nsLights := NewTrafficLight(Green)
 	ewLights := NewTrafficLight(Red)
@@ -38,6 +42,8 @@ func NewIntersection(maxDuration time.Duration, colorDurations map[string]time.D
 		timer,
 	}
 
+	// This is necessary to report the initial status of the lights
+	// Calling `go writeStatus()` here can cause a race condition.
 	go func() {
 		outputStatus <- "(N, S): Green, (E, W): Red - 00:00.00"
 	}()
@@ -69,6 +75,8 @@ func (intersection *Intersection) switchLights() {
 	case "yellow":
 		intersection.nsLights.switchColor()
 		intersection.ewLights.switchColor()
+
+		// In order to avoid both green and red lights pointing to the same lights.
 		copyOfGreen := intersection.greenLights
 		intersection.greenLights = intersection.redLights
 		intersection.redLights = copyOfGreen
@@ -81,6 +89,7 @@ func (intersection *Intersection) switchLights() {
 	if elapsed := time.Now().Sub(intersection.start); elapsed < intersection.maxDuration {
 		go intersection.switchLights()
 	} else {
+		// If the application has reached the max duration the outputStatus channel has to be closed.
 		close(intersection.outputStatus)
 	}
 }

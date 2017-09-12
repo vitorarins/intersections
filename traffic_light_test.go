@@ -4,7 +4,7 @@ import (
 	"testing"
 )
 
-var tl *TrafficLight = NewTrafficLight(Green)
+var tl = NewTrafficLight(Green)
 
 func TestSwitchToYellow(t *testing.T) {
 	tl.switchColor()
